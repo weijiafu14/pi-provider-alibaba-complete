@@ -1,0 +1,35 @@
+{
+  "name": "pi-provider-alibaba",
+  "version": "1.0.0",
+  "description": "Alibaba Cloud DashScope provider for pi (coding, token, and pay-as-you-go, both international and Chinese endpoints)",
+  "keywords": ["pi-package", "pi-extension", "pi-provider", "alibaba", "qwen", "dashscope"],
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    }
+  },
+  "files": [
+    "src"
+  ],
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "pi": {
+    "extensions": ["./src/index.ts"]
+  },
+  "scripts": {
+    "test": "echo 'No tests configured'"
+  },
+  "license": "MIT",
+  "author": "dinhe",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/dinhe/pi-provider-alibaba"
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  }
+}
