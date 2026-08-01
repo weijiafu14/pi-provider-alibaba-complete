@@ -40,7 +40,7 @@
   "author": "dinhe",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/dinhe/pi-provider-alibaba"
+    "url": "git+https://gitlab.com/dinhe/pi-provider-alibaba.git"
   },
   "engines": {
     "node": ">=22.19.0"
