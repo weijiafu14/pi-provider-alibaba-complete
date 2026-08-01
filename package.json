@@ -1,6 +1,6 @@
 {
   "name": "pi-provider-alibaba",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Alibaba Cloud DashScope provider for pi (coding, token, and pay-as-you-go, both international and Chinese endpoints)",
   "keywords": [
     "pi-package",
@@ -26,7 +26,6 @@
     "@earendil-works/pi-ai": "*"
   },
   "devDependencies": {
-    "@earendil-works/pi-ai": "^0.83.0",
     "typescript": "^5.9.3"
   },
   "pi": {
@@ -45,8 +44,5 @@
   },
   "engines": {
     "node": ">=22.19.0"
-  },
-  "devDependencies": {
-    "typescript": "^5.9.3"
   }
 }
