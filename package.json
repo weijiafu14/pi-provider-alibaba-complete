@@ -1,14 +1,16 @@
 {
-  "name": "pi-provider-alibaba",
-  "version": "1.0.1",
-  "description": "Alibaba Cloud DashScope provider for pi (coding, token, and pay-as-you-go, both international and Chinese endpoints)",
+  "name": "pi-provider-alibaba-complete",
+  "version": "1.0.0",
+  "description": "Alibaba Cloud provider for Pi with Coding Plan, Token Plan, pay-as-you-go, dynamic catalogs, and verified reasoning controls",
   "keywords": [
     "pi-package",
     "pi-extension",
     "pi-provider",
     "alibaba",
     "qwen",
-    "dashscope"
+    "dashscope",
+    "reasoning",
+    "deepseek"
   ],
   "type": "module",
   "main": "./src/index.ts",
@@ -26,6 +28,8 @@
     "@earendil-works/pi-ai": "*"
   },
   "devDependencies": {
+    "@earendil-works/pi-ai": "^0.84.2",
+    "@earendil-works/pi-coding-agent": "^0.84.2",
     "tsx": "^4.20.5",
     "typescript": "^5.9.3"
   },
@@ -37,13 +41,24 @@
   "scripts": {
     "test": "tsx --test tests/*.test.ts",
     "typecheck": "tsc --noEmit",
-    "verify": "npm run typecheck && npm test && npm pack --dry-run"
+    "verify": "npm run typecheck && npm test && npm pack --dry-run",
+    "prepublishOnly": "npm run verify"
   },
   "license": "MIT",
   "author": "dinhe",
+  "contributors": [
+    "weijiafu14"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/dinhe/pi-provider-alibaba.git"
+    "url": "git+https://github.com/weijiafu14/pi-provider-alibaba-complete.git"
+  },
+  "homepage": "https://github.com/weijiafu14/pi-provider-alibaba-complete#readme",
+  "bugs": {
+    "url": "https://github.com/weijiafu14/pi-provider-alibaba-complete/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "engines": {
     "node": ">=22.19.0"
