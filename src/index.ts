@@ -28,6 +28,10 @@ import {
   type Model,
   type RefreshModelsContext,
 } from "@earendil-works/pi-ai/compat";
+import {
+  isAlibabaChatModel,
+  resolveAlibabaModelCapabilities,
+} from "./model-capabilities.js";
 
 const API = "openai-completions" as const;
 
@@ -81,8 +85,8 @@ const TOKEN_FALLBACK_MODELS: Array<Pick<
   "id" | "name" | "reasoning" | "input" | "cost" | "contextWindow" | "maxTokens"
 >> = [
   {
-    id: "qwen3.8-max-preview",
-    name: "Qwen3.8 Max Preview (Token)",
+    id: "qwen3.8-max",
+    name: "Qwen3.8 Max (Token)",
     reasoning: false,
     input: ["text"],
     cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
@@ -101,6 +105,42 @@ const TOKEN_FALLBACK_MODELS: Array<Pick<
   {
     id: "qwen3.7-plus",
     name: "Qwen3.7 Plus (Token)",
+    reasoning: false,
+    input: ["text"],
+    cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+    contextWindow: 128000,
+    maxTokens: 8192,
+  },
+  {
+    id: "qwen3.6-flash",
+    name: "Qwen3.6 Flash (Token)",
+    reasoning: false,
+    input: ["text"],
+    cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+    contextWindow: 128000,
+    maxTokens: 8192,
+  },
+  {
+    id: "deepseek-v4-pro",
+    name: "DeepSeek V4 Pro (Token)",
+    reasoning: false,
+    input: ["text"],
+    cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+    contextWindow: 128000,
+    maxTokens: 8192,
+  },
+  {
+    id: "deepseek-v4-flash-0731",
+    name: "DeepSeek V4 Flash 0731 (Token)",
+    reasoning: false,
+    input: ["text"],
+    cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+    contextWindow: 128000,
+    maxTokens: 8192,
+  },
+  {
+    id: "glm-5.2",
+    name: "GLM-5.2 (Token)",
     reasoning: false,
     input: ["text"],
     cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
@@ -176,11 +216,8 @@ function mapToModel(
     api: API,
     provider: providerId,
     baseUrl,
-    reasoning: false,
-    input: ["text"],
+    ...resolveAlibabaModelCapabilities(id),
     cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
-    contextWindow: 128000,
-    maxTokens: 8192,
   };
 }
 
@@ -194,9 +231,11 @@ function createFallbackModels(
 ): Model<typeof API>[] {
   return models.map((m) => ({
     ...m,
+    ...resolveAlibabaModelCapabilities(m.id),
     api: API,
     provider: providerId,
     baseUrl,
+    cost: m.cost,
   }));
 }
 
@@ -216,7 +255,9 @@ async function discoverModels(
     throw new Error(`${response.status} ${response.statusText}`);
   }
   const payload = (await response.json()) as { data?: AlibabaModel[] };
-  const models = payload.data ?? [];
+  const models = (payload.data ?? []).filter((model) =>
+    isAlibabaChatModel(model.id || model.object || ""),
+  );
   if (models.length === 0) {
     throw new Error("models endpoint returned no data");
   }
